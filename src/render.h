@@ -2,7 +2,6 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_thread.h>
 
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
@@ -19,20 +18,33 @@ extern int MENUSIZE;
 extern int HEIGHT; 
 extern int WIDTH; 
 
+struct Lines {
+    std::vector<SDL_Rect> rect;
+    std::vector<int> val;
+    std::vector<SDL_Color> col;
+};
+
 
 class RenderWindow 
 {	
 	public:
+	
 		RenderWindow();
 		SDL_Renderer* getRenderer();
 		SDL_Window* getWindow();
 		
-		void render(ImGuiIO& io);
+		void render(ImGuiIO& io, Lines& l);
+		void render(ImGuiIO& io, Lines& l, unsigned int red, unsigned int blue);	
+		void drawState(Lines& l, unsigned int red, unsigned int blue);
+		void drawLines(Lines& l);
+
 		void destroySDL();
 		void setupImGuiContext();
 		void setupRenderPlatform();
 		void startImGuiFrame();
 		void destroyImGui();
+
+		
 		
 	private:
 		SDL_Window* window;
