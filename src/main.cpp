@@ -13,7 +13,7 @@
 
 int main(int, char**) {
     
-   Lines l;
+    Lines l;
 
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
@@ -39,8 +39,7 @@ int main(int, char**) {
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     ImGui::GetStyle();
-    ImVec2 padding = ImVec2(0, 0);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, padding);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 
     // Setup Platform/Renderer backends
     rind.setupRenderPlatform();
@@ -57,12 +56,14 @@ int main(int, char**) {
     randomizeVector(l, l.arraySize);
 
     // Main Loop
+    //
     bool done = false;
-
-    while (!done) {
+    while (!done) 
+    {
 
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event)) 
+        {
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
                 done = true;
@@ -81,17 +82,21 @@ int main(int, char**) {
 
         // Check for Array Size Update
         //
-        if (l.arraySize != l.prevSize) {
+        if (l.arraySize != l.prevSize)
+        {
             randomizeVector(l, l.arraySize);
             l.prevSize = l.arraySize;
         }
 
         // Select Algorithm
         //
-        if (menu.start) {
+        if (menu.start) 
+        {
             menu.start = false;
-            switch (menu.sort) {
+            switch (menu.sort) 
+            {
                 case Sort_Insertion: insertionSort(rind, io, l); break;
+                case Sort_Selection: selectionSort(rind, io, l); break;
                 case Sort_Bubble: bubbleSort(rind, io, l); break;
             }
             menu.sort = -1; 
@@ -102,11 +107,10 @@ int main(int, char**) {
         rind.render(io, l);
         SDL_Delay(5);
     }
-
     // Cleanup
+    //
     rind.destroyImGui();
     rind.destroySDL();
     SDL_Quit();
-
     return 0;
 }

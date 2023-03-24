@@ -6,6 +6,14 @@ int MENUSIZE = 64;
 int HEIGHT = 480 + MENUSIZE;
 int WIDTH = 640; 
 
+void Lines::swap(int min_index, int i) {
+    int temp = val[min_index];
+    val[min_index] = val[i];
+    val[i] = temp;
+    SDL_Rect tempR = rect[min_index];
+    rect[min_index] = rect[i];
+    rect[i] = tempR;
+}
 
 RenderWindow::RenderWindow() :window(NULL), renderer(NULL) {
     // Create window with SDL_Renderer graphics context
@@ -47,6 +55,10 @@ void RenderWindow::render(ImGuiIO& io, Lines& l,
     SDL_RenderPresent(renderer);
 }
 
+
+// void RenderWindow::resize(ImGuiIO& io, Lines& l) {
+
+// }
 
 
 void RenderWindow::destroySDL() {
@@ -109,24 +121,6 @@ void RenderWindow::drawState(Lines& l, unsigned int red, unsigned int blue) {
         index += rectWidth;
     }
 }
-
-// void RenderWindow::drawState(Lines& l, unsigned int red, unsigned int blue) {
-
-//     unsigned int index = 0;
-//     int size = l.val.size();
-//     for (int i = 0; i < size; i++) {
-//         if (index == red) {
-//             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-//         } 
-//         else if (index == blue) {
-//             SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-//         } else {
-//             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-//         }
-//         SDL_RenderDrawLine(renderer, index, 4*16, index, l.val[i]);
-//         index++;
-//     }
-// }
 
 void RenderWindow::drawLines(Lines& l) {
 

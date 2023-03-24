@@ -71,11 +71,9 @@ void mainMenu(Menu& menu, Lines& l) {
     ImGui::SetNextWindowSize(windowSize);
 
     ImGui::Begin("Buttons", &menu.show_window, ImGuiWindowFlags_NoDecoration |  ImGuiWindowFlags_NoMove); // Remove Bar
-    
     if (ImGui::Button("Generate\nNew Array", buttonSize))
         randomizeVector(l, l.arraySize);
     ImGui::SameLine();
-
     {
         slider(buttonSize.x, l.arraySize);
     }
@@ -96,7 +94,6 @@ void mainMenu(Menu& menu, Lines& l) {
     if (ImGui::Button("Bubble\nSorts", buttonSize))
         _showBubbleMenu(menu);
     ImGui::End();
-
 }
 
 /*
@@ -111,8 +108,8 @@ void simpleMenu(Menu& menu) {
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0));
     ImGui::SetNextWindowPos(menuPos);
     ImGui::SetNextWindowSize(menuSize);
+
     ImGui::Begin("Menu", &menu.show_simple,  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove); 
-    
     if (ImGui::Button("Insertion Sort", dropSize))  {
         menu.sort = Sort_Insertion;
         menu.show_simple = false;
@@ -138,8 +135,8 @@ void efficientMenu(Menu& menu) {
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0));
     ImGui::SetNextWindowPos(menuPos);
     ImGui::SetNextWindowSize(menuSize);
+
     ImGui::Begin("Menu", &menu.show_efficient,  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove); 
-    
     if (ImGui::Button("Merge Sort", dropSize))  {
         menu.sort = Sort_Merge;
         menu.show_efficient = false;
@@ -157,7 +154,6 @@ void efficientMenu(Menu& menu) {
         menu.show_efficient = false;
     }      
     ImGui::PopStyleVar();                           
-
     ImGui::End();
 }
 
@@ -180,8 +176,8 @@ void bubbleMenu(Menu& menu) {
         menu.sort = Sort_Bubble;
         menu.show_bubble = false;
     }    
-    ImGui::PopStyleVar();                           
-
+    ImGui::PopStyleVar(); 
+                              
     ImGui::End();
 }
 
@@ -200,13 +196,13 @@ void _textCentered(std::string text) {
 void slider(int buttonSizeX, int& arraySize) {
     ImGui::BeginGroup();
     _textCentered("Array Size");
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::HSV(0/7.0f, 0.5f, 0.5f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.5f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.5f));
-    ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(0 / 7.0f, 0.9f, 0.9f));
+    // ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::HSV(0/7.0f, 0.5f, 0.5f));
+    // ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.5f));
+    // ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.5f));
+    // ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(0 / 7.0f, 0.9f, 0.9f));
     ImGui::PushItemWidth(buttonSizeX);
     ImGui::SliderInt("##", &arraySize, 2, 200);
-    ImGui::PopStyleColor(4);
+    // ImGui::PopStyleColor(4);
     ImGui::PopItemWidth(); 
     ImGui::EndGroup();
 }

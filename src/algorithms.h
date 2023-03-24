@@ -24,14 +24,14 @@ void randomizeVector(Lines& l, int size);
 // Simple Sorts
 //
 void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
-// void selectionSort(RenderWindow rind, ImGuiIO& io, std::vector<int>& v);
+void selectionSort(RenderWindow rind, ImGuiIO& io, Lines& l);
 
 // // Efficient Sorts
 // //
-// void mergeSort(RenderWindow rind, ImGuiIO& io, std::vector<int>& v);
-// void heapSort(RenderWindow rind, ImGuiIO& io, std::vector<int>& v);
-// void quickSort(RenderWindow rind, ImGuiIO& io, std::vector<int>& v);
-// void shellSort(RenderWindow rind, ImGuiIO& io, std::vector<int>& v);
+// void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
+// void heapSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
+// void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
+// void shellSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 
 // // Bubble sort and Variants
 // //

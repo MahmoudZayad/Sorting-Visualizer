@@ -30,49 +30,83 @@ void randomizeVector(Lines& l, int size) {
     l.col = c;
 }
 
-// Simple Sorts
+// ****************************************************************************
+// ******************************* SIMPLE SORTS *******************************
+// ****************************************************************************
 //
-void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l) {
-    
-    int j, key;
-    int size = l.val.size();
-    int center = 640/4; // Center screen
-    int tempX;
-    int tempH;
 
-    SDL_Rect temp;
-    SDL_Rect keyr;
-
-    for (int i = 1; i < size; i++) {
-        key = l.val[i];
-        keyr = l.rect[i];
-        j = i-1;
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Insertion Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l)
+{    
+    for (int i = 1; i < l.val.size(); i++) {
+        int key = l.val[i];
+        SDL_Rect keyr = l.rect[i];
+        int j = i-1;
         
         while (j >= 0 && l.val[j] > key) {
             l.val[j+1] = l.val[j];
             l.rect[j+1] = l.rect[j];
             j--;
         }
-
         l.val[j+1] = key;
         l.rect[j+1] = keyr;
+
         // Render
         //
-        rind.render(io,l,j+1,j);
-        SDL_Delay(10);
-
+        rind.render(io,l,i,j+1);
+        SDL_Delay(30);
     }
-    
+}
+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Selection Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
+{
+    for (int i = 0; i < l.val.size(); i++) {
+        int min_index = i;
+        int j = i + 1;
+
+        for (j; j < l.val.size(); j++) {
+            if (l.val[j] < l.val[min_index])
+                min_index = j;
+        }
+        l.swap(min_index, i);
+
+        // Render
+        //
+        rind.render(io,l,i,min_index);
+        SDL_Delay(30);
+    }
+
     for (auto i : l.val) {
         std::cout<< i << " ";
     }
     if(std::is_sorted(l.val.begin(), l.val.end()))
-        std::cout << "sorted\n";
-
-    
+        std::cout << "sorted\n"; 
 }
 
-// Bubble Sort
+
+// ****************************************************************************
+// ****************************** EFFICIENT SORTS *****************************
+// ****************************************************************************
+//
+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Merge Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+
+
+
+
+// ****************************************************************************
+// ******************************* BUBBLE SORTS *******************************
+// ****************************************************************************
+//
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bubble Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
 void bubbleSort(RenderWindow& rind, ImGuiIO& io, Lines& l) {

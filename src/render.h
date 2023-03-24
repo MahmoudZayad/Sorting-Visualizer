@@ -24,6 +24,10 @@ struct Lines {
     std::vector<SDL_Color> col;
 	int arraySize;
 	int prevSize;
+	
+	// Swap
+	//
+	void swap(int min_index, int i);
 };
 
 
@@ -37,6 +41,7 @@ class RenderWindow
 		
 		void render(ImGuiIO& io, Lines& l);
 		void render(ImGuiIO& io, Lines& l, unsigned int red, unsigned int blue);	
+		// void resize(ImGuiIO& io, Lines& l);
 		void drawState(Lines& l, unsigned int red, unsigned int blue);
 		void drawLines(Lines& l);
 
