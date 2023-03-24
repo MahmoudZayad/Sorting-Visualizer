@@ -1,5 +1,5 @@
-#include "render.h"
-#include "algorithms.h"
+#include "gui.h"
+
 #include <utility>
 
 
@@ -9,14 +9,6 @@
 
 #include <iostream>
 
-void TextCentered(std::string text) {
-    auto windowWidth = 3*(642/6);
-    auto textWidth   = ImGui::CalcTextSize(text.c_str()).x;
-
-    ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
-    ImGui::SetCursorPosY(8);
-    ImGui::Text(text.c_str());
-}
 
 
 int main(int, char**) {
@@ -59,24 +51,20 @@ int main(int, char**) {
     bool done = false;
 
     // Menu bools
-    static bool show_window = true;
-    bool show_algorithms = false;
-    bool show_weights = false;
-    bool show_speed = false;
-    bool menu_clicked = false;
-    
-    // Visualize button
-    bool visualize = false;
+    Menu menu = Menu(false);
 
     // Animation check
     bool anim = false;
 
     // Algorithms and Grid interactions
     const char* viz = "Visualize";
-    int sort = -1;
+    menu.sort = -1;
+
+    l.arraySize = 100;
+    l.prevSize = l.arraySize;
     
 
-    randomizeVector(l, 100);
+    randomizeVector(l, l.arraySize);
 
 
     while (!done) {
@@ -91,69 +79,35 @@ int main(int, char**) {
         }
 
         // Start the Dear ImGui frame
-        
+        //
         rind.startImGuiFrame(); 
         {
-            static int arraySize = 0;
-
-            static ImVec2 pos = ImVec2(0,0);
-            static ImVec2 windowSize = ImVec2(640,4*16);
-            static ImVec2 buttonSize = ImVec2((642/6), 4*16);
-            
-            ImGui::SetNextWindowPos(pos);
-            ImGui::SetNextWindowSize(windowSize);
-
-            ImGui::Begin("Buttons", &show_window, ImGuiWindowFlags_NoDecoration |  ImGuiWindowFlags_NoMove); // Remove Bar
-            
+            mainMenu(menu, l);
+        }
         
-            if (ImGui::Button("Generate\nNew Array", buttonSize))
-            std::cout << "quick";
-            ImGui::SameLine();
+        displayMenu(menu);
 
-            {
-                ImGui::BeginGroup();
-                TextCentered("Array Size");
-                ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::HSV(0/7.0f, 0.5f, 0.5f));
-                ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.5f));
-                ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.5f));
-                ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(0 / 7.0f, 0.9f, 0.9f));
-                ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0,0));
-                ImGui::PushItemWidth(buttonSize.x);
-                ImGui::SliderInt("##", &arraySize, 0, 200);
-                ImGui::PopStyleVar();
-                ImGui::PopStyleColor(4);
-                ImGui::PopItemWidth(); 
-                ImGui::EndGroup();
+        // Check for Array Size Update
+        //
+        if (l.arraySize != l.prevSize) {
+            randomizeVector(l, l.arraySize);
+            l.prevSize = l.arraySize;
+        }
+        
+        // Select Algorithm
+        //
+        if (menu.start) {
+            switch (menu.sort) {
+                case Sort_Insertion: insertionSort(rind, io, l); break;
+                case Sort_Bubble: bubbleSort(rind, io, l); break;
             }
-            
-            ImGui::SameLine(0.0f, 0.0f);
-            if (ImGui::Button("Insertion\nSort", buttonSize))
-                sort = Sort_Insertion;
-            ImGui::SameLine(0.0f, 0.0f);
-            if (ImGui::Button("Bubble\nSort", buttonSize))
-                sort = Sort_Bubble;
-            ImGui::SameLine(0.0f, 0.0f);
-            if (ImGui::Button("Heap\nSort", buttonSize))
-                std::cout << "heap";
-            ImGui::SameLine(0.0f, 0.0f);
-            if (ImGui::Button("Insertion\nSort", buttonSize))
-                std::cout << "insertion";
-           
-            ImGui::End();
-        }
-        // ImGui::ShowStyleEditor();
-
-        switch (sort) {
-            case Sort_Insertion: insertionSort(rind, io, l); break;
-            case Sort_Bubble: bubbleSort(rind, io, l); break;
-
-            default: break;
-        }
-        sort = -1; 
-            
+            menu.sort = -1; 
+        } else {menu.start = false;}
+       
         
+        // Render
+        //
         rind.render(io, l);
-
         SDL_Delay(5);
     }
 

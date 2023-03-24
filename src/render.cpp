@@ -91,7 +91,9 @@ void RenderWindow::destroyImGui() {
 void RenderWindow::drawState(Lines& l, unsigned int red, unsigned int blue) {
 
     int size = l.val.size();
-    int index = 16; // Center of screen
+    int rectWidth = WIDTH/size;
+    int index = (WIDTH - rectWidth*size)*0.5; 
+
     for (int i = 0; i < size; i++) {
         if (i == red) {
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -104,7 +106,7 @@ void RenderWindow::drawState(Lines& l, unsigned int red, unsigned int blue) {
         l.rect[i].x = index;
         l.rect[i].h = l.val[i] + (4*16);
         SDL_RenderFillRect(renderer, &l.rect[i]);
-        index+=6;
+        index += rectWidth;
     }
 }
 

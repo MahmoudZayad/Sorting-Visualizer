@@ -14,13 +14,16 @@ void randomizeVector(Lines& l, int size) {
     std::random_device rd;
     std::uniform_int_distribution<int> d(1,400);
 
-    int index = 16; // Center of screen
+    // Determine Size and Location of Rects
+    //
+    int rectWidth = WIDTH/size;
+    int index = (WIDTH - rectWidth*size)*0.5; 
 
     for (int i = 0; i < size; i++) {
         v[i] = d(rd);
-        r[i] = {index, 4*16, 5, v[i]+(4*16)};
+        r[i] = {index, 4*16, rectWidth-1, v[i]+(4*16)};
         c[i] = {255, 255, 255, 255};
-        index += 6;
+        index += rectWidth;
     }
     l.rect = r;
     l.val = v;
@@ -48,27 +51,15 @@ void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l) {
         while (j >= 0 && l.val[j] > key) {
             l.val[j+1] = l.val[j];
             l.rect[j+1] = l.rect[j];
-            
-
-            // temp = l.rect[j+1];
-            // tempX = l.rect[j+1].x;
-            // tempH = l.rect[j+1].h;
-
-            
-            // l.rect[j+1].x = l.rect[j].x;
-            // l.rect[j+1].h = l.srect[j].h;
-
-            // l.rect[j] = temp;
-            // l.rect[j].x = tempX;
-            // l.rect[j].h = tempH;
             j--;
         }
+
         l.val[j+1] = key;
         l.rect[j+1] = keyr;
         // Render
         //
         rind.render(io,l,j+1,j);
-        SDL_Delay(5);
+        SDL_Delay(10);
 
     }
     
@@ -96,7 +87,7 @@ void bubbleSort(RenderWindow& rind, ImGuiIO& io, Lines& l) {
                 
             }
             rind.render(io,l,j,j+1);
-            SDL_Delay(500);
+            SDL_Delay(5);
         }
     }
 }

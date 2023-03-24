@@ -22,6 +22,8 @@ struct Lines {
     std::vector<SDL_Rect> rect;
     std::vector<int> val;
     std::vector<SDL_Color> col;
+	int arraySize;
+	int prevSize;
 };
 
 

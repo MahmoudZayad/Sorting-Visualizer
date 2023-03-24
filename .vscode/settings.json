@@ -37,6 +37,15 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "bit": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "atomic": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "random": "cpp",
+        "cinttypes": "cpp"
     }
 }

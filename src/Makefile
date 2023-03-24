@@ -19,7 +19,7 @@ IMGUI_DIR = ../
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui/imgui.cpp $(IMGUI_DIR)/imgui/imgui_demo.cpp $(IMGUI_DIR)/imgui/imgui_draw.cpp $(IMGUI_DIR)/imgui/imgui_tables.cpp $(IMGUI_DIR)/imgui/imgui_widgets.cpp
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_sdl2.cpp $(IMGUI_DIR)/backends/imgui_impl_sdlrenderer.cpp
-SOURCES +=  $(IMGUI_DIR)/render.cpp $(IMGUI_DIR)/algorithms.cpp
+SOURCES +=  $(IMGUI_DIR)/render.cpp $(IMGUI_DIR)/algorithms.cpp $(IMGUI_DIR)/gui.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
