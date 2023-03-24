@@ -47,5 +47,8 @@
         "memory_resource": "cpp",
         "random": "cpp",
         "cinttypes": "cpp"
+    },
+    "files.exclude": {
+        "**/*.o": true
     }
 }

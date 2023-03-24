@@ -87,7 +87,7 @@ void bubbleSort(RenderWindow& rind, ImGuiIO& io, Lines& l) {
                 
             }
             rind.render(io,l,j,j+1);
-            SDL_Delay(5);
+            // SDL_Delay(5);
         }
     }
 }

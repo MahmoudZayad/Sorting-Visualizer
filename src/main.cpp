@@ -40,32 +40,24 @@ int main(int, char**) {
     ImGui::StyleColorsDark();
     ImGui::GetStyle();
     ImVec2 padding = ImVec2(0, 0);
-    ImVec2 spacing = ImVec2(0, 8);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, padding);
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, spacing);
 
     // Setup Platform/Renderer backends
     rind.setupRenderPlatform();
 
-    // Main Loop
-    bool done = false;
-
     // Menu bools
     Menu menu = Menu(false);
 
-    // Animation check
-    bool anim = false;
-
-    // Algorithms and Grid interactions
-    const char* viz = "Visualize";
+    // Algorithms
     menu.sort = -1;
 
     l.arraySize = 100;
     l.prevSize = l.arraySize;
     
-
     randomizeVector(l, l.arraySize);
 
+    // Main Loop
+    bool done = false;
 
     while (!done) {
 
@@ -93,18 +85,18 @@ int main(int, char**) {
             randomizeVector(l, l.arraySize);
             l.prevSize = l.arraySize;
         }
-        
+
         // Select Algorithm
         //
         if (menu.start) {
+            menu.start = false;
             switch (menu.sort) {
                 case Sort_Insertion: insertionSort(rind, io, l); break;
                 case Sort_Bubble: bubbleSort(rind, io, l); break;
             }
             menu.sort = -1; 
-        } else {menu.start = false;}
+        }
        
-        
         // Render
         //
         rind.render(io, l);

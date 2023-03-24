@@ -57,13 +57,21 @@ void mainMenu(Menu& menu, Lines& l) {
     static ImVec2 pos = ImVec2(0,0);
     static ImVec2 windowSize = ImVec2(640,4*16);
     static ImVec2 buttonSize = ImVec2((642/6), 4*16);
+    const char* viz;
+
+    if (menu.sort == -1) 
+        viz = "Select a Sort";
+    else
+        viz = "Sort";
+    
+    ImVec2 spacing = ImVec2(0, 8);
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, spacing);
     
     ImGui::SetNextWindowPos(pos);
     ImGui::SetNextWindowSize(windowSize);
 
     ImGui::Begin("Buttons", &menu.show_window, ImGuiWindowFlags_NoDecoration |  ImGuiWindowFlags_NoMove); // Remove Bar
     
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 8));
     if (ImGui::Button("Generate\nNew Array", buttonSize))
         randomizeVector(l, l.arraySize);
     ImGui::SameLine();
@@ -73,9 +81,11 @@ void mainMenu(Menu& menu, Lines& l) {
     }
     ImGui::SameLine(0.0f, 0.0f);
     ImGui::PopStyleVar();
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0)); 
-    if (ImGui::Button("Sort!", buttonSize))
-         menu.start = true;
+    if (ImGui::Button(viz, buttonSize))
+        if (menu.sort == -1)
+            viz = "Select a Sort";
+        else
+            menu.start = true;
     ImGui::SameLine(0.0f, 0.0f);
     if (ImGui::Button("Simple\nSorts", buttonSize))
          _showSimpleMenu(menu);
@@ -85,7 +95,6 @@ void mainMenu(Menu& menu, Lines& l) {
     ImGui::SameLine(0.0f, 0.0f);
     if (ImGui::Button("Bubble\nSorts", buttonSize))
         _showBubbleMenu(menu);
-    ImGui::PopStyleVar();
     ImGui::End();
 
 }
@@ -95,10 +104,11 @@ void mainMenu(Menu& menu, Lines& l) {
 */
 void simpleMenu(Menu& menu) {
 
-    static ImVec2 menuPos = ImVec2(4, (4*16) + 4);
-    static ImVec2 menuSize = ImVec2((642/6) + 5*16 , 4*16);
-    static ImVec2 dropSize = ImVec2((642/6) + 5*16, 2*16);
+    static ImVec2 menuPos = ImVec2((642/6)*3, (4*16) + 4);
+    static ImVec2 menuSize = ImVec2((642/6), 4*16);
+    static ImVec2 dropSize = ImVec2((642/6), 2*16);
     
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0));
     ImGui::SetNextWindowPos(menuPos);
     ImGui::SetNextWindowSize(menuSize);
     ImGui::Begin("Menu", &menu.show_simple,  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove); 
@@ -110,7 +120,8 @@ void simpleMenu(Menu& menu) {
     if (ImGui::Button("Selection Sort", dropSize)) {
         menu.sort = Sort_Selection;
         menu.show_simple = false;
-    }                               
+    }    
+    ImGui::PopStyleVar();                           
     ImGui::End();
 }
 
@@ -120,10 +131,11 @@ void simpleMenu(Menu& menu) {
 */
 void efficientMenu(Menu& menu) {
 
-    static ImVec2 menuPos = ImVec2(4, (4*16) + 4);
-    static ImVec2 menuSize = ImVec2((642/6) + 4*16 ,14*16);
-    static ImVec2 dropSize = ImVec2((642/6) + 4*16, 2*16);
+    static ImVec2 menuPos = ImVec2((642/6)*4, (4*16) + 4);
+    static ImVec2 menuSize = ImVec2((642/6), 4*16);
+    static ImVec2 dropSize = ImVec2((642/6), 2*16);
     
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0));
     ImGui::SetNextWindowPos(menuPos);
     ImGui::SetNextWindowSize(menuSize);
     ImGui::Begin("Menu", &menu.show_efficient,  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove); 
@@ -143,7 +155,9 @@ void efficientMenu(Menu& menu) {
     if (ImGui::Button("Shell Sort", dropSize)) {
         menu.sort = Sort_Shell;
         menu.show_efficient = false;
-    }                               
+    }      
+    ImGui::PopStyleVar();                           
+
     ImGui::End();
 }
 
@@ -153,10 +167,11 @@ void efficientMenu(Menu& menu) {
 */
 void bubbleMenu(Menu& menu) {
 
-    static ImVec2 menuPos = ImVec2(4, (4*16) + 4);
-    static ImVec2 menuSize = ImVec2((642/6) + 5*16 ,14*16);
-    static ImVec2 dropSize = ImVec2((642/6) + 5*16,2*16);
+    static ImVec2 menuPos = ImVec2((642/6)*5, (4*16) + 4);
+    static ImVec2 menuSize = ImVec2((642/6), 2*16);
+    static ImVec2 dropSize = ImVec2((642/6), 2*16);
     
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0));
     ImGui::SetNextWindowPos(menuPos);
     ImGui::SetNextWindowSize(menuSize);
     ImGui::Begin("Menu", &menu.show_bubble,  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove); 
@@ -164,7 +179,9 @@ void bubbleMenu(Menu& menu) {
     if (ImGui::Button("Bubble Sort", dropSize))  {
         menu.sort = Sort_Bubble;
         menu.show_bubble = false;
-    }                             
+    }    
+    ImGui::PopStyleVar();                           
+
     ImGui::End();
 }
 
@@ -187,10 +204,8 @@ void slider(int buttonSizeX, int& arraySize) {
     ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.5f));
     ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.5f));
     ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(0 / 7.0f, 0.9f, 0.9f));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0,0));
     ImGui::PushItemWidth(buttonSizeX);
     ImGui::SliderInt("##", &arraySize, 2, 200);
-    ImGui::PopStyleVar();
     ImGui::PopStyleColor(4);
     ImGui::PopItemWidth(); 
     ImGui::EndGroup();
