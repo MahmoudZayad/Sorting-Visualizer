@@ -27,8 +27,9 @@ void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 void selectionSort(RenderWindow rind, ImGuiIO& io, Lines& l);
 
 // // Efficient Sorts
-// //
-// void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
+// 
+void merge(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int mid, int right);
+void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right);
 // void heapSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 // void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 // void shellSort(RenderWindow& rind, ImGuiIO& io, Lines& l);

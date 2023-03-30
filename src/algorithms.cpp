@@ -99,7 +99,94 @@ void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
 //
 
 
+void merge(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int mid, int right) 
+{
+    
+    // Find size of sub vectors
+    int sizeL = mid - left + 1;
+    int sizeR = right - mid;
+    std::vector<int>  vecLeft(sizeL, 0);
+    std::vector<int>  vecRight(sizeR, 0);
+    std::vector<SDL_Rect>  vecRecL(sizeL, SDL_Rect());
+    std::vector<SDL_Rect>  vecRecR(sizeR, SDL_Rect());
 
+    // Fill sub vectors
+    for (int i = 0; i < sizeL; i++)
+    {
+        vecLeft[i] = l.val[i + left];
+        vecRecL[i] = l.rect[i + left];
+    }
+    for (int i = 0; i < sizeR; i++) 
+    {
+        vecRight[i] = l.val[i + mid + 1];
+        vecRecR[i] = l.rect[i + mid + 1];
+    }
+    
+    int indexL = 0, indexR = 0;
+    int indexMerge = left;
+
+    // Merge the arrays
+    while(indexL < sizeL && indexR < sizeR) 
+    {
+        if (vecLeft[indexL] <= vecRight[indexR])
+        {
+            l.val[indexMerge] = vecLeft[indexL];
+            l.rect[indexMerge] = vecRecL[indexL];
+            // Render
+            rind.render(io, l, indexL + left, indexMerge);
+            SDL_Delay(10);
+            indexL++;
+        }
+        else 
+        {
+            l.val[indexMerge] = vecRight[indexR];
+            l.rect[indexMerge] = vecRecR[indexR];
+            // Render
+            rind.render(io,l, indexR + mid + 1, indexMerge);
+            SDL_Delay(10);
+
+            indexR++;
+        }
+        indexMerge++;
+        
+    }
+
+    while (indexL < sizeL)
+    {
+        l.val[indexMerge] = vecLeft[indexL];
+        l.rect[indexMerge] = vecRecL[indexL];
+        // Render
+        rind.render(io,l, indexL + left, indexMerge);
+        SDL_Delay(10);
+        indexL++;
+        indexMerge++;
+    }
+    
+    while (indexR < sizeR)
+    {
+        l.val[indexMerge] = vecRight[indexR];
+        l.rect[indexMerge] = vecRecR[indexR];
+        // Render
+        rind.render(io,l, indexR + mid + 1, indexMerge);
+        SDL_Delay(10);
+        indexR++;
+        indexMerge++;
+    }
+}
+
+void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right) {
+    
+    if (left < right) 
+    {
+        int mid = left + (right - left) / 2;
+        mergeSort(rind, io, l, left, mid);
+        mergeSort(rind, io, l, mid + 1, right);
+
+        merge(rind, io, l, left, mid, right);
+
+    }
+
+}
 
 // ****************************************************************************
 // ******************************* BUBBLE SORTS *******************************
