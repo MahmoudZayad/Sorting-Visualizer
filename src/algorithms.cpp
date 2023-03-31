@@ -2,7 +2,8 @@
 
 // Create vector with randomized values
 //
-void randomizeVector(Lines& l, int size) {
+void randomizeVector(Lines& l, int size)
+{
     // Intialize Rectangles and Values
     //
     std::vector<int> v(size, 0);
@@ -19,7 +20,8 @@ void randomizeVector(Lines& l, int size) {
     int rectWidth = WIDTH/size;
     int index = (WIDTH - rectWidth*size)*0.5; 
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         v[i] = d(rd);
         r[i] = {index, 4*16, rectWidth-1, v[i]+(4*16)};
         c[i] = {255, 255, 255, 255};
@@ -40,12 +42,14 @@ void randomizeVector(Lines& l, int size) {
 //
 void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l)
 {    
-    for (int i = 1; i < l.val.size(); i++) {
+    for (int i = 1; i < l.val.size(); i++)
+    {
         int key = l.val[i];
         SDL_Rect keyr = l.rect[i];
         int j = i-1;
         
-        while (j >= 0 && l.val[j] > key) {
+        while (j >= 0 && l.val[j] > key)
+        {
             l.val[j+1] = l.val[j];
             l.rect[j+1] = l.rect[j];
             j--;
@@ -65,11 +69,13 @@ void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l)
 //
 void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
 {
-    for (int i = 0; i < l.val.size(); i++) {
+    for (int i = 0; i < l.val.size(); i++)
+    {
         int min_index = i;
         int j = i + 1;
 
-        for (j; j < l.val.size(); j++) {
+        for (j; j < l.val.size(); j++)
+        {
             if (l.val[j] < l.val[min_index])
                 min_index = j;
         }
@@ -81,7 +87,8 @@ void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
         SDL_Delay(30);
     }
 
-    for (auto i : l.val) {
+    for (auto i : l.val)
+    {
         std::cout<< i << " ";
     }
     if(std::is_sorted(l.val.begin(), l.val.end()))
@@ -97,8 +104,6 @@ void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Merge Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-
-
 void merge(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int mid, int right) 
 {
     
@@ -174,8 +179,8 @@ void merge(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int mid, int rig
     }
 }
 
-void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right) {
-    
+void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right)
+{ 
     if (left < right) 
     {
         int mid = left + (right - left) / 2;
@@ -186,6 +191,42 @@ void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right) {
 
     }
 
+}
+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Quick Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+
+int partition(RenderWindow& rind, ImGuiIO& io, Lines& l, int low, int high)
+{   
+    int pivot = l.val[high];
+
+    int store = low - 1;
+    for (int i = low; i <= high; i++) 
+    {
+        if (l.val[i] < pivot) {
+            store++;
+            l.swap(store, i);
+            // Render
+            rind.render(io,l, store, i);
+            SDL_Delay(5);
+        }
+    }
+    l.swap(store + 1, high);
+    // Render
+    rind.render(io,l, store + 1, high);
+    SDL_Delay(5);
+    return store + 1;
+}
+
+void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int low, int high) 
+{
+    if (low < high)
+    {
+        int pivot = partition(rind, io, l, low, high);
+        quickSort(rind, io, l, low, pivot - 1);
+        quickSort(rind, io, l, pivot + 1, high);
+    }
 }
 
 // ****************************************************************************

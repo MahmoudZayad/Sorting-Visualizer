@@ -129,7 +129,7 @@ void simpleMenu(Menu& menu) {
 void efficientMenu(Menu& menu) {
 
     static ImVec2 menuPos = ImVec2((642/6)*4, (4*16) + 4);
-    static ImVec2 menuSize = ImVec2((642/6), 4*16);
+    static ImVec2 menuSize = ImVec2((642/6), 8*16);
     static ImVec2 dropSize = ImVec2((642/6), 2*16);
     
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0,0));
@@ -141,10 +141,6 @@ void efficientMenu(Menu& menu) {
         menu.sort = Sort_Merge;
         menu.show_efficient = false;
     }  
-    if (ImGui::Button("Heap Sort", dropSize)) {
-        menu.sort = Sort_Heap;
-        menu.show_efficient = false;
-    }
     if (ImGui::Button("Quick Sort", dropSize)) {
         menu.sort = Sort_Quick;
         menu.show_efficient = false;
@@ -152,7 +148,11 @@ void efficientMenu(Menu& menu) {
     if (ImGui::Button("Shell Sort", dropSize)) {
         menu.sort = Sort_Shell;
         menu.show_efficient = false;
-    }      
+    }
+     if (ImGui::Button("Heap Sort", dropSize)) {
+        menu.sort = Sort_Heap;
+        menu.show_efficient = false;
+    }    
     ImGui::PopStyleVar();                           
     ImGui::End();
 }

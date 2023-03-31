@@ -30,9 +30,10 @@ void selectionSort(RenderWindow rind, ImGuiIO& io, Lines& l);
 // 
 void merge(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int mid, int right);
 void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right);
-// void heapSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
-// void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
+int partition(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int pivot);
+void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right);
 // void shellSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
+// void heapSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 
 // // Bubble sort and Variants
 // //
