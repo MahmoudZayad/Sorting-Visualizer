@@ -11,9 +11,10 @@ enum Sort_ {
     Sort_Insertion,
     Sort_Selection,
     Sort_Merge,
-    Sort_Heap,
     Sort_Quick,
+    Sort_Counting,
     Sort_Shell,
+    Sort_Heap,
     Sort_Bubble
 };
 
@@ -30,8 +31,9 @@ void selectionSort(RenderWindow rind, ImGuiIO& io, Lines& l);
 // 
 void merge(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int mid, int right);
 void mergeSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right);
-int partition(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int pivot);
-void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int left, int right);
+int partition(RenderWindow& rind, ImGuiIO& io, Lines& l, int low, int high);
+void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int low, int high);
+void countingSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 // void shellSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 // void heapSort(RenderWindow& rind, ImGuiIO& io, Lines& l);
 

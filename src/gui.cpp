@@ -144,7 +144,11 @@ void efficientMenu(Menu& menu) {
     if (ImGui::Button("Quick Sort", dropSize)) {
         menu.sort = Sort_Quick;
         menu.show_efficient = false;
-    }    
+    }
+    if (ImGui::Button("Counting Sort", dropSize)) {
+        menu.sort = Sort_Counting;
+        menu.show_efficient = false;
+    }  
     if (ImGui::Button("Shell Sort", dropSize)) {
         menu.sort = Sort_Shell;
         menu.show_efficient = false;
@@ -201,7 +205,7 @@ void slider(int buttonSizeX, int& arraySize) {
     // ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.5f));
     // ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(0 / 7.0f, 0.9f, 0.9f));
     ImGui::PushItemWidth(buttonSizeX);
-    ImGui::SliderInt("##", &arraySize, 2, 200);
+    ImGui::SliderInt("##", &arraySize, 2, 300);
     // ImGui::PopStyleColor(4);
     ImGui::PopItemWidth(); 
     ImGui::EndGroup();

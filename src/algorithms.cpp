@@ -17,13 +17,13 @@ void randomizeVector(Lines& l, int size)
 
     // Determine Size and Location of Rects
     //
-    int rectWidth = WIDTH/size;
-    int index = (WIDTH - rectWidth*size)*0.5; 
+    int rectWidth = WIDTH / size;
+    int index = (WIDTH - rectWidth * size) * 0.5; 
 
     for (int i = 0; i < size; i++)
     {
         v[i] = d(rd);
-        r[i] = {index, 4*16, rectWidth-1, v[i]+(4*16)};
+        r[i] = {index, 4 * 16, rectWidth-1, v[i] + (4 * 16)};
         c[i] = {255, 255, 255, 255};
         index += rectWidth;
     }
@@ -46,20 +46,20 @@ void insertionSort(RenderWindow& rind, ImGuiIO& io, Lines& l)
     {
         int key = l.val[i];
         SDL_Rect keyr = l.rect[i];
-        int j = i-1;
+        int j = i - 1;
         
         while (j >= 0 && l.val[j] > key)
         {
-            l.val[j+1] = l.val[j];
-            l.rect[j+1] = l.rect[j];
+            l.val[j + 1] = l.val[j];
+            l.rect[j + 1] = l.rect[j];
             j--;
         }
-        l.val[j+1] = key;
-        l.rect[j+1] = keyr;
+        l.val[j + 1] = key;
+        l.rect[j + 1] = keyr;
 
         // Render
         //
-        rind.render(io,l,i,j+1);
+        rind.render(io, l, j+1, i);
         SDL_Delay(30);
     }
 }
@@ -83,16 +83,9 @@ void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
 
         // Render
         //
-        rind.render(io,l,i,min_index);
+        rind.render(io, l, min_index, i);
         SDL_Delay(30);
     }
-
-    for (auto i : l.val)
-    {
-        std::cout<< i << " ";
-    }
-    if(std::is_sorted(l.val.begin(), l.val.end()))
-        std::cout << "sorted\n"; 
 }
 
 
@@ -228,6 +221,61 @@ void quickSort(RenderWindow& rind, ImGuiIO& io, Lines& l, int low, int high)
         quickSort(rind, io, l, pivot + 1, high);
     }
 }
+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Counting Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+
+void countingSort(RenderWindow& rind, ImGuiIO &io, Lines &l)
+{
+    auto maxIndex = distance(std::begin(l.val), max_element(std::begin(l.val), std::end(l.val)));
+    auto maxVal = l.val[maxIndex];
+    std::vector<int> count(maxVal + 1, 0);
+    std::vector<int> output(maxVal + 1, 0);
+    std::vector<SDL_Rect> outputRect(maxVal + 1, SDL_Rect());
+
+    int size = l.val.size();
+
+    // Count each instance of a value
+    for (int i = 0; i < size; i++)
+        count[l.val[i]]++;
+
+    // Find cummulative sum of instances of values up to each index
+    for (int i = 1; i <= maxVal; i++) 
+        count[i] += count[i-1];
+
+    for (int i = size - 1; i >= 0; i--) 
+    {
+        output[count[l.val[i]] - 1] = l.val[i];
+        outputRect[count[l.val[i]] - 1] = l.rect[i];
+        count[l.val[i]]--;
+        // Render
+        //
+        rind.render(io,l, count[l.val[i]] - 1, i);
+        SDL_Delay(30);
+    }
+    
+    for (int i= 0; i < size; i++)
+    {
+        l.val[i] = output[i];
+        l.rect[i] = outputRect[i];
+        // Render
+        //
+        rind.render(io,l, 1000, i);
+        SDL_Delay(30);
+    }
+        
+
+
+    for (auto i : l.val)
+    {
+        std::cout<< i << " ";
+    }
+    if(std::is_sorted(l.val.begin(), l.val.end()))
+        std::cout << "sorted\n"; 
+}
+
+
 
 // ****************************************************************************
 // ******************************* BUBBLE SORTS *******************************

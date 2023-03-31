@@ -99,6 +99,7 @@ int main(int, char**) {
                 case Sort_Selection: selectionSort(rind, io, l); break;
                 case Sort_Merge: mergeSort(rind, io, l, 0, l.val.size() - 1); break;
                 case Sort_Quick: quickSort(rind, io, l, 0, l.val.size() - 1); break;
+                case Sort_Counting: countingSort(rind, io, l); break;
                 case Sort_Bubble: bubbleSort(rind, io, l); break;
             }
             menu.sort = -1; 
