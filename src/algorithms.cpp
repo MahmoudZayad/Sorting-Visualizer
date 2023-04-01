@@ -32,6 +32,7 @@ void randomizeVector(Lines& l, int size)
     l.col = c;
 }
 
+//
 // ****************************************************************************
 // ******************************* SIMPLE SORTS *******************************
 // ****************************************************************************
@@ -88,7 +89,7 @@ void selectionSort(RenderWindow rind, ImGuiIO &io, Lines &l)
     }
 }
 
-
+//
 // ****************************************************************************
 // ****************************** EFFICIENT SORTS *****************************
 // ****************************************************************************
@@ -252,7 +253,7 @@ void countingSort(RenderWindow& rind, ImGuiIO &io, Lines &l)
         // Render
         //
         rind.render(io,l, count[l.val[i]] - 1, i);
-        SDL_Delay(30);
+        SDL_Delay(5);
     }
     
     for (int i= 0; i < size; i++)
@@ -262,21 +263,70 @@ void countingSort(RenderWindow& rind, ImGuiIO &io, Lines &l)
         // Render
         //
         rind.render(io,l, 1000, i);
-        SDL_Delay(30);
+        SDL_Delay(5);
     }
-        
+}
 
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Radix Sort ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+
+void _sortDigit(RenderWindow& rind, ImGuiIO &io, Lines &l, int digit)
+{
+    const int max = 10;
+    int size = l.val.size();
+    std::vector<int> count(max, 0);
+    std::vector<int> output(size, 0);
+    std::vector<SDL_Rect> outputRect(size, SDL_Rect());
+    
+    // Count each instance of a value
+    for (int i = 0; i < size; i++)
+        count[(l.val[i] / digit) % 10]++;
+
+    // Find cummulative sum of instances of values up to each index
+    for (int i = 1; i <= max; i++) 
+        count[i] += count[i-1];
+
+    for (int i = size - 1; i >= 0; i--) 
+    {
+        output[count[(l.val[i] / digit) % 10] - 1] = l.val[i];
+        outputRect[count[(l.val[i] / digit) % 10] - 1] = l.rect[i];
+        count[(l.val[i] / digit) % 10]--;
+        // Render
+        //
+        rind.render(io,l, count[(l.val[i] / digit) % 10] - 1, i);
+        SDL_Delay(5);
+    }
+    
+    for (int i= 0; i < size; i++)
+    {
+        l.val[i] = output[i];
+        l.rect[i] = outputRect[i];
+        // Render
+        //
+        rind.render(io,l, 1000, i);
+        SDL_Delay(5);
+    }
+}
+
+void radixSort(RenderWindow& rind, ImGuiIO &io, Lines &l)
+{
+    auto maxIndex = distance(std::begin(l.val), max_element(std::begin(l.val), std::end(l.val)));
+    auto maxVal = l.val[maxIndex];
+
+    for (int digit = 1; maxVal / digit > 0; digit *= 10)
+    {
+        _sortDigit(rind, io, l, digit);
+    }
 
     for (auto i : l.val)
-    {
         std::cout<< i << " ";
-    }
     if(std::is_sorted(l.val.begin(), l.val.end()))
         std::cout << "sorted\n"; 
 }
 
 
-
+//
 // ****************************************************************************
 // ******************************* BUBBLE SORTS *******************************
 // ****************************************************************************

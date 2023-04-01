@@ -5,9 +5,10 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/**",
-                "/usr/include"
+                "/usr/include/**"
             ],
-            "defines": []
+            "defines": [],
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4

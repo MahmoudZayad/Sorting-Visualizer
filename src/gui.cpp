@@ -148,7 +148,11 @@ void efficientMenu(Menu& menu) {
     if (ImGui::Button("Counting Sort", dropSize)) {
         menu.sort = Sort_Counting;
         menu.show_efficient = false;
-    }  
+    }
+    if (ImGui::Button("Radix Sort", dropSize)) {
+        menu.sort = Sort_Radix;
+        menu.show_efficient = false;
+    }
     if (ImGui::Button("Shell Sort", dropSize)) {
         menu.sort = Sort_Shell;
         menu.show_efficient = false;
